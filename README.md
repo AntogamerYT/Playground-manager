@@ -3,7 +3,7 @@ Hello there fellow programmer!
 
 This is the [Bot Playgrounds](https://discord.gg/XrQ4DTJ39t)' Discord Bot! You can use the code for everything you want and you can also don't credit us (even if it would be nice :D).
 # Selfhosting the bot
-Selfhosting it is very easy!
+It's a very easy process!
 
 Download the code or clone the repo with git, put everything in a folder, do `npm install` and as the last command: `node .` (make sure to have node 16 or above, you can check your version with `node -v`)
 
