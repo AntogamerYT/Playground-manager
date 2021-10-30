@@ -2,27 +2,23 @@ const Discord = require("discord.js");
 
 module.exports = {
 	name: 'ping',
-	description: 'L\'aiuto del bot!',
-	aliases: ['comandi', "commands"],
+	description: '',
+	aliases: [],
 	usage: '[command name]',
 	cooldown: 2,
 	execute(client, message, args) {
-    prefix = client.prefix
-    const data = [];
-    const { commands } = client;
+const bping = new Discord.MessageEmbed()
+.setAuthor('The ping is ms \nWebsocket ping: ms')
+.setColor('00ff00')
+  message.channel.send({embeds: [bping]}).then(m =>{
 
-  // It sends the user "Pinging"
-  message.channel.send("Pinging...").then(m =>{
-    // The math thingy to calculate the user's ping
       var ping = m.createdTimestamp - message.createdTimestamp;
 
-    // Basic embed
-      var embed = new Discord.MessageEmbed()
-      .setAuthor(`Your ping is ${ping}`)
-      .setColor("Your Color")
+      const embed = new Discord.MessageEmbed()
+      .setAuthor(`The ping is ${ping}ms \nWebsocket ping: ${client.ws.ping}ms`)
+      .setColor('00ff00')
       
-      // Then It Edits the message with the ping variable embed that you created
-      m.edit(embed)
+      m.edit({embeds: [embed]})
   });
 }
 };

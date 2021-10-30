@@ -2,23 +2,17 @@ const Discord = require('discord.js');
 require('dotenv').config();
 const fs = require('fs');
 
-const client = new Discord.Client();
-const prefix = 'p.';
+const client = new Discord.Client({intents: 7927});
+client.prefix = 'p.';
 
 client.owners = [
     '434395983862956034',
-    '514168581135794206'
+    '514168581135794206',
+    '658586788721590273',
+    '805500495283617853'
    ];
-
-client.once('ready', () => {
-    client.user.setPresence({ activity: { name: "The Bot Playground Discord Server!", type: "LISTENING" }, status: "dnd" })
-});
-
-// client.on('message', message => {
-//if(message.mentions.members.first().id === ('846153579013472277')){
-  //message.channel.send('message')
-//}
-//});
+   client.setMaxListeners(1000)
+   client.cooldowns = new Discord.Collection()
 
 client.commands = new Discord.Collection();
 
@@ -29,21 +23,43 @@ for(const file of commandFiles){
     client.commands.set(command.name, command);
 }
 
-client.on('message', message =>{
-  if(!message.content.startsWith(prefix) || message.author.bot) return;
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+for (const file of eventFiles) {
+	const event = require(`./events/${file}`);
+	try{
+	if (event.once) {
+		client.once(event.name, async (...args) => await event.execute(...args, client));
+	} else {
+		client.on(event.name, async (...args) => await event.execute(...args, client));
+	}
+} catch(err) {
+	console.log(err)
+}}
 
-  const args = message.content.slice(prefix.length).split(/ +/);
-  const command = args.shift().toLowerCase();
+const buttonEvents = fs.readdirSync('./events/buttons/').filter(file => file.endsWith('.js'));
+for (const file of buttonEvents) {
+	const event = require(`./events/buttons/${file}`);
+	try{
+	if (event.once) {
+		client.once(event.name, async (...args) => await event.execute(...args, client));
+	} else {
+		client.on(event.name, async (...args) => await event.execute(...args, client));
+	}
+} catch(err) {
+	console.log(err)
+}}
 
-  if(command === 'help'){
-      client.commands.get('help').execute(client, message, args);
-  } else if(command === 'ping'){
-    client.commands.get('ping').execute(client, message, args);
-  }else if(command === 'uptime'){
-    client.commands.get('uptime').execute(client, message, args);
-  }else if(command === 'eval'){
-    client.commands.get('eval').execute(client, message, args);
-  }
-});
+const rr = fs.readdirSync('./events/buttons/rr/').filter(file => file.endsWith('.js'));
+for (const file of rr) {
+	const event = require(`./events/buttons/rr/${file}`);
+	try{
+	if (event.once) {
+		client.once(event.name, async (...args) => await event.execute(...args, client));
+	} else {
+		client.on(event.name, async (...args) => await event.execute(...args, client));
+	}
+} catch(err) {
+	console.log(err)
+}}
 
 client.login(process.env.TOKEN);

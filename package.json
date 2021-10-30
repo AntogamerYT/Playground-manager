@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "testù"
+    "main": "node ."
   },
   "author": "Antogamer",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.2.0",
     "dotenv": "^10.0.0"
   }
 }
